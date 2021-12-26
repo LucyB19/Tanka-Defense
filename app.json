@@ -19,9 +19,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "dev.notjust.messenger",
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": true,
+        "NSLocationAlwaysAndWhenInUseUsageDescription": true,
+        "NSLocationAlwaysUsageDescription": true
+      }
     },
     "android": {
+      "package": "dev.notjust.messenger",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -29,6 +38,7 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "plugins": ["@react-native-firebase/app"]
   }
 }

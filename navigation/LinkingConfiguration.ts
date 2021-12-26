@@ -15,6 +15,11 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
+          TabZero: {
+            screens: {
+              TabZeroScreen: 'zero',
+            },
+          },
           TabOne: {
             screens: {
               TabOneScreen: 'one',
@@ -23,6 +28,11 @@ const linking: LinkingOptions<RootStackParamList> = {
           TabTwo: {
             screens: {
               TabTwoScreen: 'two',
+            },
+          },
+          TabThree: {
+            screens: {
+              TabTwoScreen: 'three',
             },
           },
         },

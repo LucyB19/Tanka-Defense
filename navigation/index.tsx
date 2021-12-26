@@ -5,19 +5,26 @@
  */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, useRoute, } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
+import React, {useContext} from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import ChannelListScreen from '../screens/ChannelListScreen';
+import UserScreen from '../screens/UserScreen';
+import SignupScreen from '../screens/SignupScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import AuthContext from '../contexts/Authentication';
+import ChannelScreen from '../screens/ChannelScreen';
+import { ChannelAvatar } from 'stream-chat-expo';
+import Home from '../screens/Home';
+import Pomodoro from '../screens/Pomodoro';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,13 +43,24 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const {userId} = useContext(AuthContext);
+ 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      {!userId ? (
+        <Stack.Screen name="Auth" component={SignupScreen} options={{ headerShown: false }}  />
+      ): (
+        <>
+        <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+        {/*<Stack.Screen name="Home" component={Home} options={{headerShown: false}} />*/}
+        <Stack.Screen name = "Channel" component={ChannelScreen} options={{headerTitle: " ",
+        headerStyle: {
+            backgroundColor: '#fff',
+          },}}/>
+        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        </>
+      )}
+ 
     </Stack.Navigator>
   );
 }
@@ -54,45 +72,51 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
+  
   const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="TabZero"
       screenOptions={{
+        
+       // tabBarBackgroundColor: "red",
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
+        <BottomTab.Screen
+        name="TabZero"
+        component={Home}
+        options={({ navigation }: RootTabScreenProps<'TabZero'>) => ({
+          title: 'Home',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+        })}
+      />
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={ChannelListScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
+          title: 'Chat',
+          tabBarIcon: ({ color }) => <TabBarIcon name="comments" color={color} />,
         })}
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={TabTwoScreen}
+        component={UserScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Users',
+          tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabThree"
+        component={Pomodoro}
+        options={{
+          title: 'Timer',
+          tabBarIcon: ({ color }) => <TabBarIcon name="clock-o" color={color} />,
         }}
       />
     </BottomTab.Navigator>
+    
   );
 }
 
@@ -105,3 +129,4 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+

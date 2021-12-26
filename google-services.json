@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "839163486630",
+    "project_id": "messenger-da544",
+    "storage_bucket": "messenger-da544.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839163486630:android:46ba3e3b04673befddaf67",
+        "android_client_info": {
+          "package_name": "dev.notjust.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839163486630-lbo98pqu7s35p2jb52lurimrd1ier3u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmiPLtcMWORSX2y-IRn0m1_mV_Ml92ils"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839163486630-lbo98pqu7s35p2jb52lurimrd1ier3u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
